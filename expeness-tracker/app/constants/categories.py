@@ -1,0 +1,36 @@
+"""Allowed expense categories."""
+
+from typing import Final
+
+ALLOWED_CATEGORIES: Final[list[str]] = [
+    "Food",
+    "Travel",
+    "Education",
+    "Children Fees",
+    "Groceries",
+    "Rent",
+    "Bills",
+    "Electricity",
+    "Water",
+    "Internet",
+    "Gas",
+    "Fuel",
+    "Shopping",
+    "Medical",
+    "Medicine",
+    "Entertainment",
+    "Salary",
+    "Business",
+    "Investment",
+    "Gift",
+    "Donation",
+    "Insurance",
+    "Savings",
+    "Transportation",
+    "Mobile Recharge",
+    "Subscription",
+    "Home Maintenance",
+    "Personal Care",
+    "Clothing",
+    "Other",
+]

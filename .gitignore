@@ -1,0 +1,25 @@
+# Frontend
+expeness-frontend/node_modules/
+expeness-frontend/.next/
+expeness-frontend/out/
+expeness-frontend/.env*
+expeness-frontend/.vercel
+
+# Backend
+expeness-tracker/venv/
+expeness-tracker/.venv/
+expeness-tracker/__pycache__/
+expeness-tracker/**/__pycache__/
+expeness-tracker/.env
+expeness-tracker/app/database/expenses.json
+expeness-tracker/app/database/*.lock
+expeness-tracker/app/database/*.tmp
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+.cursor/
+
+# Logs
+*.log

@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Runtime data
+app/database/expenses.json
+app/database/*.lock
+app/database/*.tmp
+
+# OS cursors
+.cursor/
