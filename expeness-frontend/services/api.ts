@@ -1,4 +1,5 @@
 import type { ApiResponse } from "@/types";
+import { getAuthToken } from "@/lib/auth";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -11,6 +12,23 @@ export class ApiClientError extends Error {
     this.name = "ApiClientError";
     this.status = status;
   }
+}
+
+function buildHeaders(includeJson = false): HeadersInit {
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+  };
+
+  if (includeJson) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  const token = getAuthToken();
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  return headers;
 }
 
 async function handleResponse<T>(response: Response): Promise<T> {
@@ -42,7 +60,7 @@ export async function apiGet<T>(
 
   const response = await fetch(url.toString(), {
     method: "GET",
-    headers: { Accept: "application/json" },
+    headers: buildHeaders(),
     cache: "no-store",
   });
 
@@ -52,10 +70,7 @@ export async function apiGet<T>(
 export async function apiPost<T>(endpoint: string, body: unknown): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
+    headers: buildHeaders(true),
     body: JSON.stringify(body),
   });
 
@@ -65,10 +80,7 @@ export async function apiPost<T>(endpoint: string, body: unknown): Promise<T> {
 export async function apiPut<T>(endpoint: string, body: unknown): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: "PUT",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
+    headers: buildHeaders(true),
     body: JSON.stringify(body),
   });
 
@@ -78,7 +90,7 @@ export async function apiPut<T>(endpoint: string, body: unknown): Promise<T> {
 export async function apiDelete<T>(endpoint: string): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: "DELETE",
-    headers: { Accept: "application/json" },
+    headers: buildHeaders(),
   });
 
   return handleResponse<T>(response);

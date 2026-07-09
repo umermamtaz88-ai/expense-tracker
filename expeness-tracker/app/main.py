@@ -9,9 +9,11 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.api.auth import router as auth_router
 from app.api.expense import router as expense_router
 from app.config import settings
 from app.database.database import _ensure_storage_exists
+from app.database.user_database import ensure_users_storage_exists
 from app.utils.response import error_response
 
 
@@ -31,6 +33,7 @@ async def lifespan(app: FastAPI):
     setup_logging()
     logger = logging.getLogger(__name__)
     _ensure_storage_exists()
+    ensure_users_storage_exists()
     logger.info("Expense Tracker API started (version %s)", settings.app_version)
     yield
     logger.info("Expense Tracker API shutting down")
@@ -56,6 +59,7 @@ app.add_middleware(
 )
 
 # Register API routers
+app.include_router(auth_router)
 app.include_router(expense_router)
 
 

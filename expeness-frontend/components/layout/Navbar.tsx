@@ -2,23 +2,24 @@
 
 import { useState } from "react";
 import { useTheme } from "next-themes";
-import { Menu, Moon, Sun, Plus, ArrowUpCircle, X } from "lucide-react";
+import { Menu, Moon, Sun, Plus, ArrowUpCircle, LogOut, X } from "lucide-react";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/Avatar";
 import { Sidebar } from "./Sidebar";
-import { getSettings } from "@/lib/settings";
+import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 
 interface NavbarProps {
   title: string;
   description?: string;
   showAddButton?: boolean;
+  onLogout?: () => void;
 }
 
-export function Navbar({ title, description, showAddButton }: NavbarProps) {
+export function Navbar({ title, description, showAddButton, onLogout }: NavbarProps) {
   const { theme, setTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const settings = getSettings();
+  const { user } = useAuth();
 
   return (
     <>
@@ -67,7 +68,17 @@ export function Navbar({ title, description, showAddButton }: NavbarProps) {
             <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           </Button>
-          <Avatar name={settings.displayName} size="sm" />
+          <Avatar name={user?.email ?? "User"} size="sm" />
+          {onLogout && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onLogout}
+              aria-label="Log out"
+            >
+              <LogOut className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </header>
 

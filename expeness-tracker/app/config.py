@@ -28,6 +28,12 @@ class Settings(BaseSettings):
     base_dir: Path = Path(__file__).resolve().parent
     database_dir: Path = base_dir / "database"
     expenses_file: Path = database_dir / "expenses.json"
+    users_file: Path = database_dir / "user.json"
+
+    # Auth
+    jwt_secret: str = "change-this-secret-in-production"
+    jwt_algorithm: str = "HS256"
+    jwt_expire_minutes: int = 60 * 24 * 7
 
     # Logging
     log_level: str = "INFO"
